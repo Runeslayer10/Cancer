@@ -1,58 +1,67 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Blake Hadaway
+ * November 5th, 2018
+ * This program searches for cancer cells (-) in a 15x15 grid with (+) as good cells
  */
 
 package cancer;
-
+import java.io.*;
 /**
  *
  * @author blhad3491
  */
 public class Cancer {
 public static String grid[][];
-  public static int cancerSpot;
+  public static int cancerSpot, cancerBlobNum;
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args)throws IOException {
         
+        String myLine;
+     
+        // Reading the CancerFile.txt
+        BufferedReader fileIn = new BufferedReader(new FileReader("CancerFile.txt"));
+
         int row, col;
-    //Create 2D array size 12 x 12
+    //Create 2D array size 15 x 15
     grid = new String[15][15];
-
-    //Fill the array with blanks
-    for (row = 0; row < 15; row++) {
-      for (col = 0; col < 15; col++) {
-        grid[row][col] = "+";
-      }
+    
+    //reading the file and putting each charater into a element in the 2D array
+    for (row = 0; row < 15; row++){
+        myLine = fileIn.readLine();
+        for(col = 0; col < 15; col++){
+            grid[row][col] = "" + myLine.charAt(col);
+        }
     }
-
-    for (int i = 0; i < 70; i++) {
-      row = (int) (Math.random() * 13 + 1);
-      col = (int) (Math.random() * 13 + 1);
-      grid[row][col] = "-";
-    }
+    
+    //displaying initial grid
     displayGrid();
     
+    // this is checking every position to see if there is a cancer cell
     for (row = 1; row < 14; row++){
         for (col = 1; col < 14; col++){
             if (grid[row][col].equals("-")) {
                Cancer(row,col);
                cancerSpot++;
+               cancerBlobNum++;
             }
         }
-        
+ 
     }
-    System.out.println("The file had " + cancerSpot + " cancer spots in it.");
+    
+    //this is the out puts to tell the user how many cancer blobs
+    System.out.println("The file had " + cancerBlobNum + " cancer blobs in it.");
+    System.out.println("Those " + cancerBlobNum + " blob consisted of " + cancerSpot +
+            " cancer cells.");
     System.out.println("The new grid is:");
     
     //Print out the new grid
     displayGrid();
     }
     
+    // this is the recursive portion of the program, checking if there is any negatives 
+    // around the first cancer cell that the program finds.
     public static void Cancer(int row, int col) {
     if (grid[row][col].equals("-")) {
       grid[row][col] = " ";
@@ -69,7 +78,7 @@ public static String grid[][];
   }
 
     
-    
+    // this is just displaying the grid line by line
   public static void displayGrid() {
     String output = "";
     for (int row = 0; row <= 14; row++) {
