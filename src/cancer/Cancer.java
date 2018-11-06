@@ -1,7 +1,7 @@
 /*
  * Blake Hadaway
  * November 5th, 2018
- * This program searches for cancer cells (-) in a 15x15 grid with (+) as good cells
+ * This program searches for cancer cells (-) in a 15x15 grid (The subject) with (+) as healthy cells
  */
 
 package cancer;
@@ -21,7 +21,7 @@ public static String grid[][];
         String myLine;
      
         // Reading the CancerFile.txt
-        BufferedReader fileIn = new BufferedReader(new FileReader("CancerFile.txt"));
+        BufferedReader fileIn = new BufferedReader(new FileReader("CancerPatient1.txt"));
 
         int row, col;
     //Create 2D array size 15 x 15
@@ -49,13 +49,20 @@ public static String grid[][];
         }
  
     }
-    
-    //this is the out puts to tell the user how many cancer blobs
-    System.out.println("The file had " + cancerBlobNum + " cancer blobs in it.");
-    System.out.println("Those " + cancerBlobNum + " blob consisted of " + cancerSpot +
+
+    //this if statment is if there is only one cancer blob, so that it will print blob instead of blobs
+    if(cancerBlobNum == 1){
+    System.out.println("The file had " + cancerBlobNum + " cancer blob in it.");
+    System.out.println("That " + cancerBlobNum + " blob consisted of " + (cancerSpot - 1) +
             " cancer cells.");
     System.out.println("The new grid is:");
-    
+    // this else statment is if there is any other number of blobs or cancer cells
+    }else{
+    System.out.println("The file had " + cancerBlobNum + " cancer blobs in it.");
+    System.out.println("That " + cancerBlobNum + " blobs consisted of " + (cancerSpot - cancerBlobNum) +
+            " cancer cells.");
+    System.out.println("The new grid is:");
+    }
     //Print out the new grid
     displayGrid();
     }
